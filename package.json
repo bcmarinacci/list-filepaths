@@ -1,0 +1,46 @@
+{
+  "name": "list-filepaths",
+  "version": "1.0.0",
+  "description": "List paths of all files in a directory",
+  "engines": {
+    "node": "^6.1.0",
+    "npm": "^3.8.6"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --fix bin/ lib/ test/",
+    "prepublish": "npm run test",
+    "test": "istanbul cover tape -- test/**/*.test.js && npm run lint",
+    "preversion": "npm run test",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "list",
+    "files",
+    "filepaths"
+  ],
+  "author": "Benjamin Marinacci",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bcmarinacci/list-filepaths.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bcmarinacci/list-filepaths/issues"
+  },
+  "files": [],
+  "devDependencies": {
+    "coveralls": "^2.11.9",
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.6.1",
+    "eslint-plugin-jsx-a11y": "^1.0.4",
+    "eslint-plugin-react": "^5.0.1",
+    "istanbul": "^0.4.3",
+    "tape": "^4.5.1"
+  },
+  "dependencies": {
+    "lodash.flattendeep": "^4.2.0",
+    "pify": "^2.3.0"
+  }
+}

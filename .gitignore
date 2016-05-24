@@ -1,0 +1,17 @@
+# App
+test/fixtures/utils-problem
+test/fixtures/utils-solution
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Node.js
+node_modules
+
+# OS X
+.DS_Store
+
+# Istanbul
+coverage

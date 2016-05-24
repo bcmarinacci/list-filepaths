@@ -1,0 +1,5 @@
+# list-filepaths
+
+## License
+
+MIT
