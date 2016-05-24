@@ -1,7 +1,7 @@
 {
   "name": "list-filepaths",
   "version": "1.0.0",
-  "description": "List paths of all files in a directory",
+  "description": "List the paths of all files in a directory and its subdirectories",
   "engines": {
     "node": "^6.1.0",
     "npm": "^3.8.6"
@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint --fix bin/ lib/ test/",
     "prepublish": "npm run test",
-    "test": "istanbul cover tape -- test/**/*.test.js && npm run lint",
+    "test": "istanbul cover jasmine && npm run lint",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags"
   },
@@ -28,7 +28,9 @@
   "bugs": {
     "url": "https://github.com/bcmarinacci/list-filepaths/issues"
   },
-  "files": [],
+  "files": [
+    "index.js"
+  ],
   "devDependencies": {
     "coveralls": "^2.11.9",
     "eslint": "^2.9.0",
@@ -37,7 +39,7 @@
     "eslint-plugin-jsx-a11y": "^1.0.4",
     "eslint-plugin-react": "^5.0.1",
     "istanbul": "^0.4.3",
-    "tape": "^4.5.1"
+    "jasmine": "^2.4.1"
   },
   "dependencies": {
     "lodash.flattendeep": "^4.2.0",
