@@ -15,31 +15,32 @@ $ npm install list-filepaths --save
 
 For a directory tree...
 ```bash
-└─┬ Users
-  └─┬ finn
-    └─┬ ships
-      ├─┬ millennium-falcon
-      │ ├── millennium-falcon.js
-      │ └─┬ pilots
-      │   ├── chewbacca.js
-      │   └── han-solo.js
-      └─┬ slave-i
-        ├─┬ pilots
-        │ └── jango-fett.js
-        └── slave-i.js
+└─┬ episode-v
+  └─┬ ships
+    ├─┬ millennium-falcon
+    │ ├── millennium-falcon.js
+    │ └─┬ pilots
+    │   ├── chewbacca.js
+    │   └── han-solo.js
+    └─┬ slave-i
+      ├─┬ pilots
+      │ └── boba-fett.js
+      └── slave-i.js
 ```
 
-List absolute filepaths of files in a directory
+Return an array containing absolute filepaths of files in a directory and return a promise
 ```javascript
 const listFilepaths = require('list-filepaths');
 
-listFilepaths('/ships');
+listFilepaths('episode-v/ships')
+  .then(filepaths => filepaths)
+  .catch(console.error);
 // [
-//   '/Users/finn/ships/millennium-falcon/millennium-falcon.js',
-//   '/Users/finn/ships/millennium-falcon/pilots/chewbacca.js',
-//   '/Users/finn/ships/millennium-falcon/pilots/han-solo.js',
-//   '/Users/finn/ships/slave-i/pilots/jango-fett.js'
-//   '/Users/finn/ships/slave-i/slave-i.js'
+//   '/episode-v/ships/millennium-falcon/millennium-falcon.js',
+//   '/episode-v/ships/millennium-falcon/pilots/chewbacca.js',
+//   '/episode-v/ships/millennium-falcon/pilots/han-solo.js',
+//   '/episode-v/ships/slave-i/pilots/boba-fett.js'
+//   '/episode-v/ships/slave-i/slave-i.js'
 // ]
 ```
 

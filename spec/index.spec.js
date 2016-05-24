@@ -10,7 +10,7 @@ describe('listFilepaths', function () {
       resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('spec/fixtures/ships/slave-i/pilots/jango-fett.js'),
+      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
       resolve('spec/fixtures/ships/slave-i/slave-i.js')
     ];
 
