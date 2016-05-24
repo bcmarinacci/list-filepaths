@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix bin/ lib/ test/",
+    "lint": "eslint --fix index.js spec/",
     "prepublish": "npm run test",
     "test": "istanbul cover jasmine && npm run lint",
     "preversion": "npm run test",
