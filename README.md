@@ -52,7 +52,7 @@ listFilepaths('./episode-v/ships')
 
 ## API
 ```javascript
-const listFilepaths = require('list-filepaths);
+const listFilepaths = require('list-filepaths');
 ```
 
 ### listFilepaths(_directoryPath_[, _options_])
@@ -65,19 +65,15 @@ type: `String`
 
 The relative or absolute path of the target directory.
 
-#### options
+#### options.filter(_regex_|_callback_)
 
-type: `Object`
-
-##### filter(_regex_|_callback_)
-
-###### regex
+##### regex
 
 type: `RegExp`
 
 A regular expression instance against which to test each filepath. Matching filepaths are included in the result.
 
-###### callback
+##### callback
 
 type: `Function`
 
