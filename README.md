@@ -28,11 +28,11 @@ For a directory tree...
       └── slave-i.js
 ```
 
-Return an array containing absolute filepaths of files in a directory and return a promise
+Return an array containing absolute filepaths of all files in the directory and return a promise
 ```javascript
 const listFilepaths = require('list-filepaths');
 
-listFilepaths('episode-v/ships')
+listFilepaths('./episode-v/ships')
   .then(filepaths => filepaths)
   .catch(console.error);
 // [

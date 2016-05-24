@@ -6,23 +6,18 @@ const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 
 const listFilepaths = module.exports = function (dirPath) {
-  const absolutePath = resolve(dirPath);
-  return pify(stat)(absolutePath)
+  return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
-        return absolutePath;
+        return resolve(dirPath);
       }
 
-      return pify(readdir)(absolutePath).then(contents => {
-        const promiseMap = contents.map(content => listFilepaths(join(absolutePath, content)));
-        return Promise.all(promiseMap);
-      });
-    })
-    .then(pathStrOrArr => {
-      if (Array.isArray(pathStrOrArr)) {
-        return flattendeep(pathStrOrArr);
-      }
+      return pify(readdir)(dirPath)
+        .then(contents => {
+          const promiseMap = contents.map(content => listFilepaths(join(dirPath, content)));
 
-      return pathStrOrArr;
+          return Promise.all(promiseMap);
+        })
+        .then(pathArr => flattendeep(pathArr));
     });
 };
