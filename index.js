@@ -5,7 +5,7 @@ const { join, resolve } = require('path');
 const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 
-const listFilepaths = module.exports = function (dirPath) {
+const listFilepaths = module.exports = function (dirPath, options = {}) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
@@ -18,6 +18,18 @@ const listFilepaths = module.exports = function (dirPath) {
 
           return Promise.all(promiseMap);
         })
-        .then(pathArr => flattendeep(pathArr));
+        .then(pathArr => {
+          const filter = options.filter;
+          const flattenedPathArr = flattendeep(pathArr);
+          if (filter instanceof Function) {
+            return flattenedPathArr.filter(filter);
+          }
+
+          if (filter instanceof RegExp) {
+            return flattenedPathArr.filter(pathItem => filter.test(pathItem));
+          }
+
+          return flattenedPathArr;
+        });
     });
 };

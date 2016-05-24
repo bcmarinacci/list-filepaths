@@ -28,13 +28,19 @@ For a directory tree...
       └── slave-i.js
 ```
 
-Return an array containing absolute filepaths of all files in the directory and return a promise
+Return an alphabetically-sorted array of the paths of all files in the directory and return a promise. Filepaths can optionally be filtered.
 ```javascript
 const listFilepaths = require('list-filepaths');
 
 listFilepaths('./episode-v/ships')
-  .then(filepaths => filepaths)
-  .catch(console.error);
+  .then(filepaths => {
+    // Process filepaths
+    return filepaths;
+  })
+  .catch(err => {
+    // Handle errors
+    console.error(err);
+  });
 // [
 //   '/episode-v/ships/millennium-falcon/millennium-falcon.js',
 //   '/episode-v/ships/millennium-falcon/pilots/chewbacca.js',
@@ -43,6 +49,39 @@ listFilepaths('./episode-v/ships')
 //   '/episode-v/ships/slave-i/slave-i.js'
 // ]
 ```
+
+## API
+```javascript
+const listFilepaths = require('list-filepaths);
+```
+
+### listFilepaths(_directoryPath_[, _options_])
+
+Returns an array containing the absolute paths of all files in the target directory and its subdirectories. The filepaths are sorted alphabetically.
+
+#### directoryPath
+
+type: `String`
+
+The relative or absolute path of the target directory.
+
+#### options
+
+type: `Object`
+
+##### filter(_regex_|_callback_)
+
+###### regex
+
+type: `RegExp`
+
+A regular expression instance against which to test each filepath. Matching filepaths are included in the result.
+
+###### callback
+
+type: `Function`
+
+A callback function to pass to the Array.prototype.filter method invoked on the final array of filepaths.
 
 ## License
 
