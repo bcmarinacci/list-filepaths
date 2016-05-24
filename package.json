@@ -1,7 +1,7 @@
 {
   "name": "list-filepaths",
   "version": "1.0.0",
-  "description": "List the paths of all files in a directory and its subdirectories",
+  "description": "Asynchronously list the paths of all files in a directory and its subdirectories",
   "engines": {
     "node": "^6.1.0",
     "npm": "^3.8.6"
@@ -15,9 +15,16 @@
     "postversion": "git push && git push --tags"
   },
   "keywords": [
+    "asynchrouous",
+    "dir",
+    "directory",
+    "dirpath",
     "list",
-    "files",
-    "filepaths"
+    "file",
+    "filepath",
+    "path",
+    "subdirectory",
+    "tree"
   ],
   "author": "Benjamin Marinacci",
   "license": "MIT",

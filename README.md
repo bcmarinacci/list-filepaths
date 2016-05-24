@@ -4,7 +4,44 @@
 [![Build Status][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
-> List the paths of all files in a directory and its subdirectories
+> Asynchronously list the paths of all files in a directory and its subdirectories
+
+## Install
+```bash
+$ npm install list-filepaths --save
+```
+
+## Usage
+
+For a directory tree...
+```bash
+└─┬ Users
+  └─┬ finn
+    └─┬ ships
+      ├─┬ millennium-falcon
+      │ ├── millennium-falcon.js
+      │ └─┬ pilots
+      │   ├── chewbacca.js
+      │   └── han-solo.js
+      └─┬ slave-i
+        ├─┬ pilots
+        │ └── jango-fett.js
+        └── slave-i.js
+```
+
+List absolute filepaths of files in a directory
+```javascript
+const listFilepaths = require('list-filepaths');
+
+listFilepaths('/ships');
+// [
+//   '/Users/finn/ships/millennium-falcon/millennium-falcon.js',
+//   '/Users/finn/ships/millennium-falcon/pilots/chewbacca.js',
+//   '/Users/finn/ships/millennium-falcon/pilots/han-solo.js',
+//   '/Users/finn/ships/slave-i/pilots/jango-fett.js'
+//   '/Users/finn/ships/slave-i/slave-i.js'
+// ]
+```
 
 ## License
 
