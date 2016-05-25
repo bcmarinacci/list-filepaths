@@ -22,10 +22,11 @@ For a directory tree...
     │ └─┬ pilots
     │   ├── chewbacca.js
     │   └── han-solo.js
-    └─┬ slave-i
-      ├─┬ pilots
-      │ └── boba-fett.js
-      └── slave-i.js
+    ├─┬ slave-i
+    │ ├─┬ pilots
+    │ │ └── boba-fett.js
+    │ └── slave-i.js
+    └──t-47
 ```
 
 Return an alphabetically-sorted array of the paths of all files in the directory and return a promise. Filepaths can optionally be filtered.
@@ -57,7 +58,7 @@ const listFilepaths = require('list-filepaths');
 
 ### listFilepaths(_directoryPath_[, _options_])
 
-Returns an array containing the absolute paths of all files in the target directory and its subdirectories. The filepaths are sorted alphabetically.
+Returns an array containing the absolute paths of all files in the target directory and its subdirectories or null if no filepaths are found. Filepaths are sorted alphabetically.
 
 #### directoryPath
 

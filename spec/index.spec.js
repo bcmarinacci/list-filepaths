@@ -35,6 +35,24 @@ describe('listFilepaths', function () {
       .catch(done.fail);
   });
 
+  it('should return `null` for empty directories', function (done) {
+    listFilepaths('spec/fixtures/ships/t-47')
+      .then(filepathArr => {
+        expect(filepathArr).toEqual(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should return `null` if no filepaths match `options.filter`', function (done) {
+    listFilepaths('spec/fixtures/ships', { filter: /finn/ })
+      .then(filepathArr => {
+        expect(filepathArr).toEqual(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('should throw an error for an invalid path', function (done) {
     listFilepaths('invalid/filepath')
       .then(done.fail)

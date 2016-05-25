@@ -26,5 +26,12 @@ const getPathTree = function (dirPath) {
 module.exports = function (inputPath, options = {}) {
   const targetPath = resolve(inputPath);
   return getPathTree(targetPath)
-  .then(pathArr => filterPaths(flattendeep(pathArr), options.filter));
+  .then(pathArr => {
+    const filteredPaths = filterPaths(flattendeep(pathArr), options.filter);
+    if (!filteredPaths.length) {
+      return null;
+    }
+
+    return filteredPaths;
+  });
 };
