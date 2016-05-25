@@ -4,32 +4,27 @@ const { readdir, stat } = require('fs');
 const { join, resolve } = require('path');
 const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
+const filterPaths = require('./lib/filter-paths');
 
-const listFilepaths = module.exports = function (dirPath, options = {}) {
+const getPathTree = function (dirPath) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
-        return resolve(dirPath);
+        // Return an array to handle a filepath, which skips the recursive call
+        return [dirPath];
       }
 
       return pify(readdir)(dirPath)
         .then(contents => {
-          const promiseMap = contents.map(content => listFilepaths(join(dirPath, content)));
+          const promiseMap = contents.map(content => getPathTree(join(dirPath, content)));
 
           return Promise.all(promiseMap);
-        })
-        .then(pathArr => {
-          const filter = options.filter;
-          const flattenedPathArr = flattendeep(pathArr);
-          if (filter instanceof Function) {
-            return flattenedPathArr.filter(filter);
-          }
-
-          if (filter instanceof RegExp) {
-            return flattenedPathArr.filter(pathItem => filter.test(pathItem));
-          }
-
-          return flattenedPathArr;
         });
     });
+};
+
+module.exports = function (inputPath, options = {}) {
+  const targetPath = resolve(inputPath);
+  return getPathTree(targetPath)
+  .then(pathArr => filterPaths(flattendeep(pathArr), options.filter));
 };

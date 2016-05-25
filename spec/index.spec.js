@@ -5,8 +5,8 @@ const { resolve } = require('path');
 const listFilepaths = require('../');
 
 describe('listFilepaths', function () {
-  it('should return an array containing the paths of all files in a directory and its subdirectories', function (done) {
-    const expectedPaths = [
+  it('should return an array containing the absolute paths of all files in a directory and its subdirectories', function (done) {
+    const expectedPathList = [
       resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
@@ -15,50 +15,21 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths('spec/fixtures/ships')
-      .then(filepaths => {
-        expect(expectedPaths.length).toEqual(filepaths.length);
-        expect(expectedPaths).toEqual(filepaths);
+      .then(filepathArr => {
+        expect(filepathArr.length).toEqual(expectedPathList.length);
+        expect(filepathArr).toEqual(expectedPathList);
         done();
       })
       .catch(done.fail);
   });
 
-  it('should optionally filter the list of filepaths using a regular expression', function (done) {
-    const expectedPaths = [
-      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
-      resolve('spec/fixtures/ships/slave-i/slave-i.js')
-    ];
+  it('should handle a filepath', function (done) {
+    const expectedPathList = [resolve('spec/fixtures/ships/slave-i/slave-i.js')];
 
-    const options = {
-      filter: /slave-i/
-    };
-
-    listFilepaths('spec/fixtures/ships', options)
-      .then(filepaths => {
-        expect(expectedPaths.length).toEqual(filepaths.length);
-        expect(expectedPaths).toEqual(filepaths);
-        done();
-      })
-      .catch(done.fail);
-  });
-
-  it('should optionally filter the list of filepaths using a function', function (done) {
-    const expectedPaths = [
-      resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
-    ];
-
-    const options = {
-      filter(filepath) {
-        return /pilots/.test(filepath);
-      }
-    };
-
-    listFilepaths('spec/fixtures/ships', options)
-      .then(filepaths => {
-        expect(expectedPaths.length).toEqual(filepaths.length);
-        expect(expectedPaths).toEqual(filepaths);
+    listFilepaths('spec/fixtures/ships/slave-i/slave-i.js')
+      .then(filepathArr => {
+        expect(filepathArr.length).toEqual(expectedPathList.length);
+        expect(filepathArr).toEqual(expectedPathList);
         done();
       })
       .catch(done.fail);
