@@ -85,8 +85,7 @@ A callback function to pass to the Array.prototype.filter method invoked on the 
 
 ##### bool
 
-type: `Boolean`
-default: `false`
+type: `Boolean`, default: `false`
 
 Set value to `true` to return a list of relative paths instead of absolute paths.
 
