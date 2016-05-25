@@ -29,7 +29,7 @@ For a directory tree...
     └──t-47
 ```
 
-Return an alphabetically-sorted array of the paths of all files in the directory and return a promise. An `options` object can be passed as a second argument to filter the results or to return relative filepaths.
+Return an alphabetically-sorted array of the paths of all files in a directory and return a promise. An `options` object can be passed as a second argument to filter the results or to return relative filepaths.
 ```javascript
 const listFilepaths = require('list-filepaths');
 

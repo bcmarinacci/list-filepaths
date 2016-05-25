@@ -2,6 +2,8 @@
 'use strict';
 
 const { resolve } = require('path');
+const pify = require('pify');
+const mkdirp = require('mkdirp');
 const listFilepaths = require('../');
 
 describe('listFilepaths', function () {
@@ -36,7 +38,10 @@ describe('listFilepaths', function () {
   });
 
   it('should return `null` for empty directories', function (done) {
-    listFilepaths('spec/fixtures/ships/t-47')
+    const emptyDirPath = 'spec/fixtures/ships/t-47';
+    // Create an empty directory to test against
+    pify(mkdirp)(emptyDirPath)
+      .then(() => listFilepaths(emptyDirPath))
       .then(filepathArr => {
         expect(filepathArr).toEqual(null);
         done();
