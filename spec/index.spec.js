@@ -53,6 +53,24 @@ describe('listFilepaths', function () {
       .catch(done.fail);
   });
 
+  it('should optionally return an array containing the relative paths of all files in a directory and its subdirectories', function (done) {
+    const expectedPathList = [
+      'spec/fixtures/ships/millennium-falcon/millennium-falcon.js',
+      'spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js',
+      'spec/fixtures/ships/millennium-falcon/pilots/han-solo.js',
+      'spec/fixtures/ships/slave-i/pilots/boba-fett.js',
+      'spec/fixtures/ships/slave-i/slave-i.js'
+    ];
+
+    listFilepaths('spec/fixtures/ships', { relative: true })
+      .then(filepathArr => {
+        expect(filepathArr.length).toEqual(expectedPathList.length);
+        expect(filepathArr).toEqual(expectedPathList);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('should throw an error for an invalid path', function (done) {
     listFilepaths('invalid/filepath')
       .then(done.fail)

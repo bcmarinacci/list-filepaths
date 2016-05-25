@@ -29,11 +29,12 @@ For a directory tree...
     └──t-47
 ```
 
-Return an alphabetically-sorted array of the paths of all files in the directory and return a promise. Filepaths can optionally be filtered.
+Return an alphabetically-sorted array of the paths of all files in the directory and return a promise. An `options` object can be passed as a second argument to filter the results or to return relative filepaths.
 ```javascript
 const listFilepaths = require('list-filepaths');
 
-listFilepaths('./episode-v/ships')
+// Inside episode-v
+listFilepaths('./ships')
   .then(filepaths => {
     // Process filepaths
     return filepaths;
@@ -72,13 +73,22 @@ The relative or absolute path of the target directory.
 
 type: `RegExp`
 
-A regular expression instance against which to test each filepath. Matching filepaths are included in the result.
+A regular expression instance against which to `test` each filepath.
 
 ##### callback
 
 type: `Function`
 
 A callback function to pass to the Array.prototype.filter method invoked on the final array of filepaths.
+
+#### options.relative(_bool_)
+
+##### bool
+
+type: `Boolean`
+default: `false`
+
+Set value to `true` to return a list of relative paths instead of absolute paths.
 
 ## License
 

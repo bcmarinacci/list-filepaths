@@ -6,7 +6,7 @@ const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 const filterPaths = require('./lib/filter-paths');
 
-const getPathTree = function (dirPath) {
+const createPathTree = function (dirPath) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
@@ -16,7 +16,7 @@ const getPathTree = function (dirPath) {
 
       return pify(readdir)(dirPath)
         .then(contents => {
-          const promiseMap = contents.map(content => getPathTree(join(dirPath, content)));
+          const promiseMap = contents.map(content => createPathTree(join(dirPath, content)));
 
           return Promise.all(promiseMap);
         });
@@ -24,8 +24,11 @@ const getPathTree = function (dirPath) {
 };
 
 module.exports = function (inputPath, options = {}) {
-  const targetPath = resolve(inputPath);
-  return getPathTree(targetPath)
+  const targetPath = options.relative
+    ? inputPath
+    : resolve(inputPath);
+
+  return createPathTree(targetPath)
   .then(pathArr => {
     const filteredPaths = filterPaths(flattendeep(pathArr), options.filter);
     if (!filteredPaths.length) {
