@@ -6,7 +6,7 @@ const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 const filterPaths = require('./lib/filter-paths');
 
-const createPathTree = function (dirPath, targetDepth, currentDepth = -1) {
+const createPathTree = function (dirPath, targetDepth, currentDepth = 0) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
@@ -14,7 +14,7 @@ const createPathTree = function (dirPath, targetDepth, currentDepth = -1) {
         return [dirPath];
       }
 
-      if (currentDepth === targetDepth) {
+      if (currentDepth > targetDepth) {
         return null;
       }
 
