@@ -135,7 +135,16 @@ describe('listFilepaths', function () {
       .catch(done.fail);
   });
 
-  it('should return `null` for empty directories', function (done) {
+  it('should return null if a negative depth is provided', function (done) {
+    listFilepaths(this.targetPath, { depth: -1 })
+      .then(filepaths => {
+        expect(filepaths).toEqual(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should return null for empty directories', function (done) {
     const emptyDirPath = 'spec/fixtures/ships/t-47';
     // Create an empty directory to test against
     pify(mkdirp)(emptyDirPath)
@@ -147,7 +156,7 @@ describe('listFilepaths', function () {
       .catch(done.fail);
   });
 
-  it('should return `null` if no filepaths match `options.filter`', function (done) {
+  it('should return null if no filepaths match options.filter', function (done) {
     listFilepaths(this.targetPath, { filter: /finn/ })
       .then(filepaths => {
         expect(filepaths).toEqual(null);
