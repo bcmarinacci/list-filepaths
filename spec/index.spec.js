@@ -7,8 +7,12 @@ const mkdirp = require('mkdirp');
 const listFilepaths = require('../');
 
 describe('listFilepaths', function () {
-  it('should return an array containing the absolute paths of all files in a directory and its subdirectories', function (done) {
-    const expectedPathList = [
+  beforeEach(function () {
+    this.targetPath = 'spec/fixtures/ships';
+  });
+
+  it('should return an array of absolute filepaths', function (done) {
+    const expectedFilepaths = [
       resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
@@ -16,22 +20,82 @@ describe('listFilepaths', function () {
       resolve('spec/fixtures/ships/slave-i/slave-i.js')
     ];
 
-    listFilepaths('spec/fixtures/ships')
-      .then(filepathArr => {
-        expect(filepathArr.length).toEqual(expectedPathList.length);
-        expect(filepathArr).toEqual(expectedPathList);
+    listFilepaths(this.targetPath)
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
         done();
       })
       .catch(done.fail);
   });
 
-  it('should handle a filepath', function (done) {
-    const expectedPathList = [resolve('spec/fixtures/ships/slave-i/slave-i.js')];
+  it('should handle a filepath argument', function (done) {
+    const expectedFilepaths = [resolve('spec/fixtures/ships/slave-i/slave-i.js')];
 
     listFilepaths('spec/fixtures/ships/slave-i/slave-i.js')
-      .then(filepathArr => {
-        expect(filepathArr.length).toEqual(expectedPathList.length);
-        expect(filepathArr).toEqual(expectedPathList);
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should optionally return an array of relative filepaths', function (done) {
+    const expectedFilepaths = [
+      'spec/fixtures/ships/millennium-falcon/millennium-falcon.js',
+      'spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js',
+      'spec/fixtures/ships/millennium-falcon/pilots/han-solo.js',
+      'spec/fixtures/ships/slave-i/pilots/boba-fett.js',
+      'spec/fixtures/ships/slave-i/slave-i.js'
+    ];
+
+    listFilepaths(this.targetPath, { relative: true })
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should optionally filter filepaths using a regular expression', function (done) {
+    const expectedFilepaths = [
+      resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
+    ];
+
+    const options = {
+      filter: /millennium-falcon/
+    };
+
+    listFilepaths(this.targetPath, options)
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should optionally filter filepaths using a function', function (done) {
+    const expectedFilepaths = [
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
+      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
+    ];
+
+    const options = {
+      filter(filepath) {
+        return /pilots/.test(filepath);
+      }
+    };
+
+    listFilepaths(this.targetPath, options)
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
         done();
       })
       .catch(done.fail);
@@ -42,35 +106,17 @@ describe('listFilepaths', function () {
     // Create an empty directory to test against
     pify(mkdirp)(emptyDirPath)
       .then(() => listFilepaths(emptyDirPath))
-      .then(filepathArr => {
-        expect(filepathArr).toEqual(null);
+      .then(filepaths => {
+        expect(filepaths).toEqual(null);
         done();
       })
       .catch(done.fail);
   });
 
   it('should return `null` if no filepaths match `options.filter`', function (done) {
-    listFilepaths('spec/fixtures/ships', { filter: /finn/ })
-      .then(filepathArr => {
-        expect(filepathArr).toEqual(null);
-        done();
-      })
-      .catch(done.fail);
-  });
-
-  it('should optionally return an array containing the relative paths of all files in a directory and its subdirectories', function (done) {
-    const expectedPathList = [
-      'spec/fixtures/ships/millennium-falcon/millennium-falcon.js',
-      'spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js',
-      'spec/fixtures/ships/millennium-falcon/pilots/han-solo.js',
-      'spec/fixtures/ships/slave-i/pilots/boba-fett.js',
-      'spec/fixtures/ships/slave-i/slave-i.js'
-    ];
-
-    listFilepaths('spec/fixtures/ships', { relative: true })
-      .then(filepathArr => {
-        expect(filepathArr.length).toEqual(expectedPathList.length);
-        expect(filepathArr).toEqual(expectedPathList);
+    listFilepaths(this.targetPath, { filter: /finn/ })
+      .then(filepaths => {
+        expect(filepaths).toEqual(null);
         done();
       })
       .catch(done.fail);
