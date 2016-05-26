@@ -66,11 +66,7 @@ describe('listFilepaths', function () {
       resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
     ];
 
-    const options = {
-      filter: /millennium-falcon/
-    };
-
-    listFilepaths(this.targetPath, options)
+    listFilepaths(this.targetPath, { filter: /millennium-falcon/ })
       .then(filepaths => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
@@ -96,6 +92,44 @@ describe('listFilepaths', function () {
       .then(filepaths => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should optionally stop at a specified depth', function (done) {
+    const expectedFilepathsForDepth1 = [
+      resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
+      resolve('spec/fixtures/ships/slave-i/slave-i.js')
+    ];
+
+    const expectedFilepathsForDepth2 = [
+      resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
+      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
+      resolve('spec/fixtures/ships/slave-i/slave-i.js')
+    ];
+
+    listFilepaths(this.targetPath, { depth: 0 })
+      .then(filepaths => {
+        expect(filepaths).toEqual(null);
+        done();
+      })
+      .catch(done.fail);
+
+    listFilepaths(this.targetPath, { depth: 1 })
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepathsForDepth1.length);
+        expect(filepaths).toEqual(expectedFilepathsForDepth1);
+        done();
+      })
+      .catch(done.fail);
+
+    listFilepaths(this.targetPath, { depth: 2 })
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepathsForDepth2.length);
+        expect(filepaths).toEqual(expectedFilepathsForDepth2);
         done();
       })
       .catch(done.fail);

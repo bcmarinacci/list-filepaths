@@ -7,6 +7,7 @@
 > Asynchronously list the paths of all files in a directory and its subdirectories
 
 ## Install
+
 ```bash
 $ npm install list-filepaths --save
 ```
@@ -53,6 +54,7 @@ listFilepaths('./ships')
 ```
 
 ## API
+
 ```javascript
 const listFilepaths = require('list-filepaths');
 ```
@@ -63,31 +65,29 @@ Returns an array containing the absolute paths of all files in the target direct
 
 #### directoryPath
 
-type: `String`
+- type: `String`
 
 The relative or absolute path of the target directory.
 
-#### options.filter(_regex_|_callback_)
+#### options.filter
 
-##### regex
+- type: `RegExp` or `Function`
 
-type: `RegExp`
+A regular expression instance against which to `test` each filepath or a callback function to pass to the Array.prototype.filter method invoked on the final array of filepaths.
 
-A regular expression instance against which to `test` each filepath.
+#### options.relative
 
-##### callback
+- type: `Boolean`
 
-type: `Function`
+- default: `false`
 
-A callback function to pass to the Array.prototype.filter method invoked on the final array of filepaths.
+Set to `true` to return a list of relative paths.
 
-#### options.relative(_bool_)
+#### options.depth
 
-##### bool
+- type: `Integer`
 
-type: `Boolean`, default: `false`
-
-Set value to `true` to return a list of relative paths instead of absolute paths.
+The maximum search depth of the directory tree.
 
 ## License
 

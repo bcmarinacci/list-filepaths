@@ -6,17 +6,25 @@ const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 const filterPaths = require('./lib/filter-paths');
 
-const createPathTree = function (dirPath) {
+const createPathTree = function (dirPath, targetDepth, currentDepth = -1) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
-        // Return an array to handle a filepath, which skips the recursive call
+        // Wrap the path in an array in case a filepath is passed in as the initial value
         return [dirPath];
       }
 
+      if (currentDepth === targetDepth) {
+        return null;
+      }
+
       return pify(readdir)(dirPath)
-        .then(contents => {
-          const promiseMap = contents.map(content => createPathTree(join(dirPath, content)));
+        .then(dirChildren => {
+          const promiseMap = dirChildren.map(dirChild => {
+            const childPath = join(dirPath, dirChild);
+
+            return createPathTree(childPath, targetDepth, currentDepth + 1);
+          });
 
           return Promise.all(promiseMap);
         });
@@ -28,9 +36,10 @@ module.exports = function (inputPath, options = {}) {
     ? inputPath
     : resolve(inputPath);
 
-  return createPathTree(targetPath)
+  return createPathTree(targetPath, options.depth)
   .then(pathArr => {
-    const filteredPaths = filterPaths(flattendeep(pathArr), options.filter);
+    const filepaths = flattendeep(pathArr).filter(element => element !== null);
+    const filteredPaths = filterPaths(filepaths, options.filter);
     if (!filteredPaths.length) {
       return null;
     }
