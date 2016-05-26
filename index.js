@@ -38,8 +38,7 @@ module.exports = function (inputPath, options = {}) {
 
   return createPathTree(targetPath, options.depth)
   .then(pathArr => {
-    const filepaths = flattendeep(pathArr).filter(element => element !== null);
-    const filteredPaths = filterPaths(filepaths, options.filter);
+    const filteredPaths = filterPaths(flattendeep(pathArr), options.filter);
     if (!filteredPaths.length) {
       return null;
     }
