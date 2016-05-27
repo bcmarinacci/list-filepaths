@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "co": "^4.6.0",
-    "lodash.flattendeep": "^4.2.0",
-    "pify": "^2.3.0"
+    "lodash.flattendeep": "^4.2.0"
   }
 }

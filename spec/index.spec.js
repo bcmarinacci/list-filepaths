@@ -2,9 +2,21 @@
 'use strict';
 
 const { resolve } = require('path');
-const pify = require('pify');
 const mkdirp = require('mkdirp');
 const listFilepaths = require('../');
+
+const mkdirpAsync = function (path) {
+  return new Promise((res, rej) => {
+    mkdirp(path, (err, made) => {
+      /* istanbul ignore if */
+      if (err) {
+        rej(err);
+      }
+
+      res(made);
+    });
+  });
+};
 
 describe('listFilepaths', function () {
   beforeEach(function () {
@@ -183,7 +195,7 @@ describe('listFilepaths', function () {
   it('should return null for empty directories', function (done) {
     const emptyDirPath = 'spec/fixtures/ships/t-47';
     // Create an empty directory to test against
-    pify(mkdirp)(emptyDirPath)
+    mkdirpAsync(emptyDirPath)
       .then(() => listFilepaths(emptyDirPath))
       .then(filepaths => {
         expect(filepaths).toEqual(null);
