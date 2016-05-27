@@ -97,6 +97,42 @@ describe('listFilepaths', function () {
       .catch(done.fail);
   });
 
+  it('should optionally reject filepaths using a regular expression', function (done) {
+    const expectedFilepaths = [
+      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
+      resolve('spec/fixtures/ships/slave-i/slave-i.js')
+    ];
+
+    listFilepaths(this.targetPath, { reject: /millennium-falcon/ })
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('should optionally reject filepaths using a function', function (done) {
+    const expectedFilepaths = [
+      resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
+      resolve('spec/fixtures/ships/slave-i/slave-i.js')
+    ];
+
+    const options = {
+      reject(filepath) {
+        return /pilots/.test(filepath);
+      }
+    };
+
+    listFilepaths(this.targetPath, options)
+      .then(filepaths => {
+        expect(filepaths.length).toEqual(expectedFilepaths.length);
+        expect(filepaths).toEqual(expectedFilepaths);
+        done();
+      })
+      .catch(done.fail);
+  });
+
   it('should optionally stop at a specified depth', function (done) {
     const expectedFilepathsForDepth1 = [
       resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),

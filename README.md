@@ -15,6 +15,7 @@ $ npm install list-filepaths --save
 ## Usage
 
 For a directory tree...
+
 ```bash
 └─┬ episode-v
   └─┬ ships
@@ -30,7 +31,8 @@ For a directory tree...
     └──t-47
 ```
 
-Return an alphabetically-sorted array of the paths of all files in a directory and return a promise. An `options` object can be passed as a second argument to filter the results or to return relative filepaths.
+Return a `Promise` that is resolved with an alphabetically-sorted array of the paths of all files in a directory -- including its subdirectories. An `options` object can be passed as a second argument to filter the results, reject matching paths, or to return relative filepaths instead of absolute filepaths.
+
 ```javascript
 const listFilepaths = require('list-filepaths');
 
@@ -61,7 +63,7 @@ const listFilepaths = require('list-filepaths');
 
 ### listFilepaths(_directoryPath_[, _options_])
 
-Returns an array containing the absolute paths of all files in the target directory and its subdirectories or null if no filepaths are found. Filepaths are sorted alphabetically.
+Returns an `Promise` that is resolved with an array containing the absolute paths of all files in the target directory and its subdirectories or null if no filepaths are found. Filepaths are sorted alphabetically.
 
 #### directoryPath
 
@@ -69,11 +71,23 @@ Returns an array containing the absolute paths of all files in the target direct
 
 The relative or absolute path of the target directory.
 
+#### options.depth
+
+- type: `Integer`
+
+The maximum search depth of the directory tree.
+
 #### options.filter
 
 - type: `RegExp` or `Function`
 
-A regular expression instance against which to `test` each filepath or a callback function to pass to the Array.prototype.filter method invoked on the final array of filepaths.
+A regular expression instance against which to `test` each filepath or a callback function to pass to the Array.prototype.filter method. The filter option is used on the final array and matching paths are included in the result.
+
+#### options.reject
+
+- type: `RegExp` or `Function`
+
+Similar to filter except matched paths are excluded from the result. Reject is used on each recursive call and, as such, is more efficient than filter as it will skip recursive calls on matching paths.
 
 #### options.relative
 
@@ -82,12 +96,6 @@ A regular expression instance against which to `test` each filepath or a callbac
 - default: `false`
 
 Set to `true` to return a list of relative paths.
-
-#### options.depth
-
-- type: `Integer`
-
-The maximum search depth of the directory tree.
 
 ## License
 

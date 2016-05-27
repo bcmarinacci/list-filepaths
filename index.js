@@ -5,8 +5,9 @@ const { join, resolve } = require('path');
 const flattendeep = require('lodash.flattendeep');
 const pify = require('pify');
 const filterPaths = require('./lib/filter-paths');
+const shouldReject = require('./lib/should-reject');
 
-const createPathTree = function (dirPath, targetDepth, currentDepth = 0) {
+const createPathTree = function (dirPath, options, currentDepth = 0) {
   return pify(stat)(dirPath)
     .then(stats => {
       if (stats.isFile()) {
@@ -14,7 +15,7 @@ const createPathTree = function (dirPath, targetDepth, currentDepth = 0) {
         return [dirPath];
       }
 
-      if (currentDepth > targetDepth) {
+      if (currentDepth > options.depth) {
         return null;
       }
 
@@ -22,8 +23,11 @@ const createPathTree = function (dirPath, targetDepth, currentDepth = 0) {
         .then(dirChildren => {
           const promiseMap = dirChildren.map(dirChild => {
             const childPath = join(dirPath, dirChild);
+            if (shouldReject(childPath, options.reject)) {
+              return null;
+            }
 
-            return createPathTree(childPath, targetDepth, currentDepth + 1);
+            return createPathTree(childPath, options, currentDepth + 1);
           });
 
           return Promise.all(promiseMap);
@@ -36,7 +40,7 @@ module.exports = function (inputPath, options = {}) {
     ? inputPath
     : resolve(inputPath);
 
-  return createPathTree(targetPath, options.depth)
+  return createPathTree(targetPath, options)
   .then(pathArr => {
     const filteredPaths = filterPaths(flattendeep(pathArr), options.filter);
     if (!filteredPaths.length) {
