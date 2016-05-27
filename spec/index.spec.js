@@ -11,9 +11,9 @@ const mkdirpAsync = function (path) {
       /* istanbul ignore if */
       if (err) {
         rej(err);
+      } else {
+        res(made);
       }
-
-      res(made);
     });
   });
 };

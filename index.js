@@ -13,9 +13,9 @@ const readdirAsync = function (path) {
       /* istanbul ignore if */
       if (err) {
         rej(err);
+      } else {
+        res(files);
       }
-
-      res(files);
     });
   });
 };
@@ -26,9 +26,9 @@ const statAsync = function (path) {
       /* istanbul ignore if */
       if (err) {
         rej(err);
+      } else {
+        res(stats);
       }
-
-      res(stats);
     });
   });
 };
