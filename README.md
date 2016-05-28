@@ -40,12 +40,13 @@ const listFilepaths = require('list-filepaths');
 listFilepaths('./ships')
   .then(filepaths => {
     // Process filepaths
-    return filepaths;
+    console.log(filepaths);
   })
   .catch(err => {
     // Handle errors
     console.error(err);
   });
+
 // [
 //   '/episode-v/ships/millennium-falcon/millennium-falcon.js',
 //   '/episode-v/ships/millennium-falcon/pilots/chewbacca.js',
