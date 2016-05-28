@@ -33,24 +33,19 @@ const statAsync = function (path) {
   });
 };
 
-const createPathTree = module.exports = co.wrap(function* (dirPath, options = {}, currentDepth = 0) {
-  const targetPath = options.relative
-    ? dirPath
-    : resolve(dirPath);
-
-  const stats = yield statAsync(targetPath);
+const createPathTree = module.exports = co.wrap(function* (dirPath, options, currentDepth = 0) {
+  const stats = yield statAsync(dirPath);
   if (stats.isFile()) {
-    // Wrap the path in an array in case a filepath is passed in as the initial value
-    return [targetPath];
+    return [dirPath];
   }
 
   if (currentDepth > options.depth) {
     return null;
   }
 
-  const files = yield readdirAsync(targetPath);
+  const files = yield readdirAsync(dirPath);
   const promisePathTree = files.map(el => {
-    const elPath = join(targetPath, el);
+    const elPath = join(dirPath, el);
     if (shouldReject(elPath, options.reject)) {
       return null;
     }
@@ -58,11 +53,20 @@ const createPathTree = module.exports = co.wrap(function* (dirPath, options = {}
     return createPathTree(elPath, options, currentDepth + 1);
   });
 
-  const pathTree = yield Promise.all(promisePathTree);
-  const pathList = filterPaths(flattendeep(pathTree), options.filter);
-  if (!pathList.length) {
+  return Promise.all(promisePathTree);
+});
+
+module.exports = co.wrap(function* (inputPath, options = {}) {
+  const targetPath = options.relative
+    ? inputPath
+    : resolve(inputPath);
+
+  const pathTree = yield createPathTree(targetPath, options);
+  const pathList = flattendeep(pathTree).filter(el => el != null);
+  const filteredPathList = filterPaths(pathList, options.filter);
+  if (!filteredPathList.length) {
     return null;
   }
 
-  return pathList;
+  return filteredPathList;
 });
