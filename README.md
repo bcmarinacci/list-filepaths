@@ -31,7 +31,7 @@ For a directory tree...
     └──t-47
 ```
 
-Return a `Promise` that is resolved with an alphabetically-sorted array of the paths of all files in a directory -- including its subdirectories. An `options` object can be passed as a second argument to filter the results, reject matching paths, or to return relative filepaths instead of absolute filepaths.
+Return a `Promise` that is resolved with an alphabetically-sorted array of the paths of all files in a directory -- including its subdirectories. An `options` object can be passed as a second argument to filter the results, reject matching paths, or to return relative file paths instead of absolute file paths.
 
 ```javascript
 const listFilepaths = require('list-filepaths');
@@ -63,7 +63,7 @@ const listFilepaths = require('list-filepaths');
 
 ### listFilepaths(_directoryPath_[, _options_])
 
-Returns an `Promise` that is resolved with an array containing the absolute paths of all files in the target directory and its subdirectories or null if no filepaths are found. Filepaths are sorted alphabetically.
+Returns an `Promise` that is resolved with an array containing the absolute paths of all files in the target directory and its subdirectories or null if no file paths are found. File paths are sorted alphabetically.
 
 #### directoryPath
 
@@ -81,7 +81,7 @@ The maximum search depth of the directory tree.
 
 - type: `RegExp` or `Function`
 
-A regular expression instance against which to `test` each filepath or a callback function to pass to the Array.prototype.filter method. The filter option is used on the final array and matching paths are included in the result.
+A regular expression instance against which to `test` each file path or a callback function to pass to the Array.prototype.filter method. The filter option is used on the final array and matching paths are included in the result.
 
 #### options.reject
 

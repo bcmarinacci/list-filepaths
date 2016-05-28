@@ -1,11 +1,11 @@
 {
+  "root": true,
   "extends": "airbnb",
   "plugins": [
     "import",
     "jsx-a11y",
     "react"
   ],
-  "root": true,
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "script"
