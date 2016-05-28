@@ -8,7 +8,6 @@ const listFilepaths = require('../');
 const mkdirpAsync = function (path) {
   return new Promise((res, rej) => {
     mkdirp(path, (err, made) => {
-      /* istanbul ignore if */
       if (err) {
         rej(err);
       } else {
@@ -33,18 +32,6 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths(this.targetPath)
-      .then(filepaths => {
-        expect(filepaths.length).toEqual(expectedFilepaths.length);
-        expect(filepaths).toEqual(expectedFilepaths);
-        done();
-      })
-      .catch(done.fail);
-  });
-
-  it('should handle a filepath argument', function (done) {
-    const expectedFilepaths = [resolve('spec/fixtures/ships/slave-i/slave-i.js')];
-
-    listFilepaths('spec/fixtures/ships/slave-i/slave-i.js')
       .then(filepaths => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
@@ -211,6 +198,15 @@ describe('listFilepaths', function () {
         done();
       })
       .catch(done.fail);
+  });
+
+  it('should should throw an error if a file path is passed in as an argument', function (done) {
+    listFilepaths('spec/fixtures/ships/slave-i/slave-i.js')
+      .then(done.fail)
+      .catch(err => {
+        expect(err.message).toMatch(/ENOTDIR: not a directory/);
+        done();
+      });
   });
 
   it('should throw an error for an invalid path', function (done) {

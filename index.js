@@ -10,7 +10,6 @@ const shouldReject = require('./lib/should-reject');
 const readdirAsync = function (path) {
   return new Promise((res, rej) => {
     readdir(path, (err, files) => {
-      /* istanbul ignore if */
       if (err) {
         rej(err);
       } else {
@@ -23,7 +22,6 @@ const readdirAsync = function (path) {
 const statAsync = function (path) {
   return new Promise((res, rej) => {
     stat(path, (err, stats) => {
-      /* istanbul ignore if */
       if (err) {
         rej(err);
       } else {
@@ -35,7 +33,7 @@ const statAsync = function (path) {
 
 const createPathTree = module.exports = co.wrap(function* (dirPath, options, currentDepth = 0) {
   const stats = yield statAsync(dirPath);
-  if (stats.isFile()) {
+  if (currentDepth > 0 && stats.isFile()) {
     return [dirPath];
   }
 
