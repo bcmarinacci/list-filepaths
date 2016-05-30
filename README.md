@@ -31,7 +31,7 @@ For a directory tree...
     └──t-47
 ```
 
-Return a `Promise` that is resolved with an alphabetically-sorted array of the paths of all files in a directory -- including its subdirectories. An `options` object can be passed as a second argument to filter the results, reject matching paths, or to return relative file paths instead of absolute file paths.
+Return a `Promise` that is resolved with an alphabetically-sorted array of the paths of all files in a directory and its subdirectories. An `options` object can be passed as a second argument to filter the results, reject matching paths, or to return relative file paths instead of absolute file paths.
 
 ```javascript
 const listFilepaths = require('list-filepaths');
@@ -51,7 +51,7 @@ listFilepaths('./ships')
 //   '/episode-v/ships/millennium-falcon/millennium-falcon.js',
 //   '/episode-v/ships/millennium-falcon/pilots/chewbacca.js',
 //   '/episode-v/ships/millennium-falcon/pilots/han-solo.js',
-//   '/episode-v/ships/slave-i/pilots/boba-fett.js'
+//   '/episode-v/ships/slave-i/pilots/boba-fett.js',
 //   '/episode-v/ships/slave-i/slave-i.js'
 // ]
 ```
@@ -64,7 +64,7 @@ const listFilepaths = require('list-filepaths');
 
 ### listFilepaths(_directoryPath_[, _options_])
 
-Returns an `Promise` that is resolved with an array containing the absolute paths of all files in the target directory and its subdirectories or null if no file paths are found. File paths are sorted alphabetically.
+Returns a `Promise` that is resolved with an array containing the absolute paths of all files in the target directory and its subdirectories or null if no file paths are found. File paths are sorted alphabetically.
 
 #### directoryPath
 
@@ -74,7 +74,7 @@ The relative or absolute path of the target directory.
 
 #### options.depth
 
-- type: `Integer`
+- type: `Number`
 
 The maximum search depth of the directory tree.
 
