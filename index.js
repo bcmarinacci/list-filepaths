@@ -31,7 +31,7 @@ const statAsync = function (path) {
   });
 };
 
-const createPathTree = module.exports = co.wrap(function* (dirPath, options, currentDepth = 0) {
+const createPathTree = co.wrap(function* (dirPath, options, currentDepth = 0) {
   const stats = yield statAsync(dirPath);
   if (currentDepth > 0 && stats.isFile()) {
     return [dirPath];
@@ -42,7 +42,7 @@ const createPathTree = module.exports = co.wrap(function* (dirPath, options, cur
   }
 
   const files = yield readdirAsync(dirPath);
-  const promisePathTree = files.map(el => {
+  const promisePathTree = files.map((el) => {
     const elPath = join(dirPath, el);
     if (shouldReject(elPath, options.reject)) {
       return null;
@@ -54,7 +54,7 @@ const createPathTree = module.exports = co.wrap(function* (dirPath, options, cur
   return Promise.all(promisePathTree);
 });
 
-module.exports = co.wrap(function* (inputPath, options = {}) {
+const listFilepaths = co.wrap(function* (inputPath, options = {}) {
   const targetPath = options.relative
     ? inputPath
     : resolve(inputPath);
@@ -68,3 +68,5 @@ module.exports = co.wrap(function* (inputPath, options = {}) {
 
   return filteredPathList;
 });
+
+module.exports = listFilepaths;

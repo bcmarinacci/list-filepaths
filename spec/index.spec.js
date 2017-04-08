@@ -1,4 +1,5 @@
 /* eslint-disable prefer-arrow-callback */
+
 'use strict';
 
 const { resolve } = require('path');
@@ -32,7 +33,7 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths(this.targetPath)
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -50,7 +51,7 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths(this.targetPath, { relative: true })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -62,11 +63,11 @@ describe('listFilepaths', function () {
     const expectedFilepaths = [
       resolve('spec/fixtures/ships/millennium-falcon/millennium-falcon.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
+      resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js')
     ];
 
     listFilepaths(this.targetPath, { filter: /millennium-falcon/ })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -78,7 +79,7 @@ describe('listFilepaths', function () {
     const expectedFilepaths = [
       resolve('spec/fixtures/ships/millennium-falcon/pilots/chewbacca.js'),
       resolve('spec/fixtures/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js'),
+      resolve('spec/fixtures/ships/slave-i/pilots/boba-fett.js')
     ];
 
     const options = {
@@ -88,7 +89,7 @@ describe('listFilepaths', function () {
     };
 
     listFilepaths(this.targetPath, options)
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -103,7 +104,7 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths(this.targetPath, { reject: /millennium-falcon/ })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -124,7 +125,7 @@ describe('listFilepaths', function () {
     };
 
     listFilepaths(this.targetPath, options)
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepaths.length);
         expect(filepaths).toEqual(expectedFilepaths);
         done();
@@ -147,14 +148,14 @@ describe('listFilepaths', function () {
     ];
 
     listFilepaths(this.targetPath, { depth: 0 })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths).toEqual(null);
         done();
       })
       .catch(done.fail);
 
     listFilepaths(this.targetPath, { depth: 1 })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepathsForDepth1.length);
         expect(filepaths).toEqual(expectedFilepathsForDepth1);
         done();
@@ -162,7 +163,7 @@ describe('listFilepaths', function () {
       .catch(done.fail);
 
     listFilepaths(this.targetPath, { depth: 2 })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths.length).toEqual(expectedFilepathsForDepth2.length);
         expect(filepaths).toEqual(expectedFilepathsForDepth2);
         done();
@@ -172,7 +173,7 @@ describe('listFilepaths', function () {
 
   it('should return null if a negative depth is provided', function (done) {
     listFilepaths(this.targetPath, { depth: -1 })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths).toEqual(null);
         done();
       })
@@ -184,7 +185,7 @@ describe('listFilepaths', function () {
     // Create an empty directory to test against
     mkdirpAsync(emptyDirPath)
       .then(() => listFilepaths(emptyDirPath))
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths).toEqual(null);
         done();
       })
@@ -193,7 +194,7 @@ describe('listFilepaths', function () {
 
   it('should return null if no filepaths match options.filter', function (done) {
     listFilepaths(this.targetPath, { filter: /finn/ })
-      .then(filepaths => {
+      .then((filepaths) => {
         expect(filepaths).toEqual(null);
         done();
       })
@@ -203,7 +204,7 @@ describe('listFilepaths', function () {
   it('should should throw an error if a file path is passed in as an argument', function (done) {
     listFilepaths('spec/fixtures/ships/slave-i/slave-i.js')
       .then(done.fail)
-      .catch(err => {
+      .catch((err) => {
         expect(err.message).toMatch(/ENOTDIR: not a directory/);
         done();
       });
@@ -212,7 +213,7 @@ describe('listFilepaths', function () {
   it('should throw an error for an invalid path', function (done) {
     listFilepaths('invalid/filepath')
       .then(done.fail)
-      .catch(err => {
+      .catch((err) => {
         expect(err.message).toMatch(/ENOENT: no such file or directory/);
         done();
       });
