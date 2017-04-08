@@ -2,7 +2,6 @@
 
 const { readdir, stat } = require('fs');
 const { join, resolve } = require('path');
-const co = require('co');
 const flattendeep = require('lodash.flattendeep');
 const filterPaths = require('./lib/filter-paths');
 const shouldReject = require('./lib/should-reject');
@@ -31,8 +30,8 @@ const statAsync = function (path) {
   });
 };
 
-const createPathTree = co.wrap(function* (dirPath, options, currentDepth = 0) {
-  const stats = yield statAsync(dirPath);
+const createPathTree = async (dirPath, options, currentDepth = 0) => {
+  const stats = await statAsync(dirPath);
   if (currentDepth > 0 && stats.isFile()) {
     return [dirPath];
   }
@@ -41,7 +40,7 @@ const createPathTree = co.wrap(function* (dirPath, options, currentDepth = 0) {
     return null;
   }
 
-  const files = yield readdirAsync(dirPath);
+  const files = await readdirAsync(dirPath);
   const promisePathTree = files.map((el) => {
     const elPath = join(dirPath, el);
     if (shouldReject(elPath, options.reject)) {
@@ -52,14 +51,14 @@ const createPathTree = co.wrap(function* (dirPath, options, currentDepth = 0) {
   });
 
   return Promise.all(promisePathTree);
-});
+};
 
-const listFilepaths = co.wrap(function* (inputPath, options = {}) {
+const listFilepaths = async (inputPath, options = {}) => {
   const targetPath = options.relative
     ? inputPath
     : resolve(inputPath);
 
-  const pathTree = yield createPathTree(targetPath, options);
+  const pathTree = await createPathTree(targetPath, options);
   const pathList = flattendeep(pathTree).filter(el => el != null);
   const filteredPathList = filterPaths(pathList, options.filter);
   if (!filteredPathList.length) {
@@ -67,6 +66,6 @@ const listFilepaths = co.wrap(function* (inputPath, options = {}) {
   }
 
   return filteredPathList;
-});
+};
 
 module.exports = listFilepaths;
