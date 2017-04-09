@@ -1,27 +1,27 @@
 'use strict';
 
-const { readdir, stat } = require('fs');
-const { join, resolve } = require('path');
+const fs = require('fs');
+const path = require('path');
 const flattendeep = require('lodash.flattendeep');
 const filterPaths = require('./lib/filter-paths');
 const shouldReject = require('./lib/should-reject');
 
-const readdirAsync = path => new Promise((res, rej) => {
-  readdir(path, (err, files) => {
+const readdirAsync = dirpath => new Promise((resolve, reject) => {
+  fs.readdir(dirpath, (err, files) => {
     if (err) {
-      rej(err);
+      reject(err);
     } else {
-      res(files);
+      resolve(files);
     }
   });
 });
 
-const statAsync = path => new Promise((res, rej) => {
-  stat(path, (err, stats) => {
+const statAsync = targetpath => new Promise((resolve, reject) => {
+  fs.stat(targetpath, (err, stats) => {
     if (err) {
-      rej(err);
+      reject(err);
     } else {
-      res(stats);
+      resolve(stats);
     }
   });
 });
@@ -38,7 +38,7 @@ const createPathTree = async (dirPath, options, currentDepth = 0) => {
 
   const files = await readdirAsync(dirPath);
   const promisePathTree = files.map((el) => {
-    const elPath = join(dirPath, el);
+    const elPath = path.join(dirPath, el);
     if (shouldReject(elPath, options.reject)) {
       return null;
     }
@@ -52,7 +52,7 @@ const createPathTree = async (dirPath, options, currentDepth = 0) => {
 const listFilepaths = async (inputPath, options = {}) => {
   const targetPath = options.relative
     ? inputPath
-    : resolve(inputPath);
+    : path.resolve(inputPath);
 
   const pathTree = await createPathTree(targetPath, options);
   const pathList = flattendeep(pathTree).filter(el => el != null);

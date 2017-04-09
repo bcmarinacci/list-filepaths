@@ -1,15 +1,15 @@
 'use strict';
 
-const { resolve } = require('path');
+const path = require('path');
 const mkdirp = require('mkdirp');
 const listFilepaths = require('../index');
 
-const mkdirpAsync = path => new Promise((res, rej) => {
-  mkdirp(path, (err, made) => {
+const mkdirpPromise = filepath => new Promise((resolve, reject) => {
+  mkdirp(filepath, (err, made) => {
     if (err) {
-      rej(err);
+      reject(err);
     } else {
-      res(made);
+      resolve(made);
     }
   });
 });
@@ -22,11 +22,11 @@ describe('listFilepaths', () => {
 
   it('should return an array of absolute filepaths', async () => {
     const expectedFilepaths = [
-      resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
-      resolve('__fixtures__/ships/slave-i/slave-i.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
+      path.resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
+      path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
     const filepaths = await listFilepaths(targetPath);
@@ -50,9 +50,9 @@ describe('listFilepaths', () => {
 
   it('should optionally filter filepaths using a regular expression', async () => {
     const expectedFilepaths = [
-      resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js')
     ];
 
     const filepaths = await listFilepaths(targetPath, { filter: /millennium-falcon/ });
@@ -62,9 +62,9 @@ describe('listFilepaths', () => {
 
   it('should optionally filter filepaths using a function', async () => {
     const expectedFilepaths = [
-      resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
+      path.resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js')
     ];
 
     const options = {
@@ -80,8 +80,8 @@ describe('listFilepaths', () => {
 
   it('should optionally reject filepaths using a regular expression', async () => {
     const expectedFilepaths = [
-      resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
-      resolve('__fixtures__/ships/slave-i/slave-i.js')
+      path.resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
+      path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
     const filepaths = await listFilepaths(targetPath, { reject: /millennium-falcon/ });
@@ -91,8 +91,8 @@ describe('listFilepaths', () => {
 
   it('should optionally reject filepaths using a function', async () => {
     const expectedFilepaths = [
-      resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
-      resolve('__fixtures__/ships/slave-i/slave-i.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
+      path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
     const options = {
@@ -108,16 +108,16 @@ describe('listFilepaths', () => {
 
   it('should optionally stop at a specified depth', async () => {
     const expectedFilepathsForDepth1 = [
-      resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
-      resolve('__fixtures__/ships/slave-i/slave-i.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
+      path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
     const expectedFilepathsForDepth2 = [
-      resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
-      resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
-      resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
-      resolve('__fixtures__/ships/slave-i/slave-i.js')
+      path.resolve('__fixtures__/ships/millennium-falcon/millennium-falcon.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/chewbacca.js'),
+      path.resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js'),
+      path.resolve('__fixtures__/ships/slave-i/pilots/boba-fett.js'),
+      path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
     const [filepathsDepth0, filepathsDepth1, filepathsDepth2] = await Promise.all([
@@ -141,7 +141,7 @@ describe('listFilepaths', () => {
   it('should return null for empty directories', async () => {
     const emptyDirPath = '__fixtures__/ships/t-47';
     // Create an empty directory to test against
-    await mkdirpAsync(emptyDirPath);
+    await mkdirpPromise(emptyDirPath);
     const filepaths = await listFilepaths(emptyDirPath);
     expect(filepaths).toEqual(null);
   });
