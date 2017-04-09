@@ -4,7 +4,7 @@
 [![Build Status][circleci-image]][circleci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
-> Asynchronously list the paths of all files in a directory and its subdirectories
+> Requires Node.js v7.8.0 or greater
 
 ## Install
 
