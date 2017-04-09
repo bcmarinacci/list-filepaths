@@ -8,8 +8,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js __tests__",
-    "lint-fix": "eslint --fix index.js __tests__",
+    "lint": "eslint index.js lib __tests__",
+    "lint-fix": "npm run lint -- --fix",
     "test": "jest && npm run lint",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags"
