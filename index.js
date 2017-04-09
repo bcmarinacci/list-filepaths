@@ -6,29 +6,25 @@ const flattendeep = require('lodash.flattendeep');
 const filterPaths = require('./lib/filter-paths');
 const shouldReject = require('./lib/should-reject');
 
-const readdirAsync = function (path) {
-  return new Promise((res, rej) => {
-    readdir(path, (err, files) => {
-      if (err) {
-        rej(err);
-      } else {
-        res(files);
-      }
-    });
+const readdirAsync = path => new Promise((res, rej) => {
+  readdir(path, (err, files) => {
+    if (err) {
+      rej(err);
+    } else {
+      res(files);
+    }
   });
-};
+});
 
-const statAsync = function (path) {
-  return new Promise((res, rej) => {
-    stat(path, (err, stats) => {
-      if (err) {
-        rej(err);
-      } else {
-        res(stats);
-      }
-    });
+const statAsync = path => new Promise((res, rej) => {
+  stat(path, (err, stats) => {
+    if (err) {
+      rej(err);
+    } else {
+      res(stats);
+    }
   });
-};
+});
 
 const createPathTree = async (dirPath, options, currentDepth = 0) => {
   const stats = await statAsync(dirPath);

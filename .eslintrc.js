@@ -8,7 +8,7 @@ module.exports = {
     "sourceType": "script"
   },
   "env": {
-    "jasmine": true
+    "jasmine": true,
   },
   "rules": {
     "comma-dangle": ["error", "never"]
