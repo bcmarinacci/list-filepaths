@@ -1,6 +1,6 @@
 {
   "name": "list-filepaths",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Asynchronously return an array containing the paths of all files in a directory and its subdirectories",
   "engines": {
     "node": "^7.8.0",
