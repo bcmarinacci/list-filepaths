@@ -1,10 +1,13 @@
 # list-filepaths
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][circleci-image]][circleci-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
+[![npm](https://img.shields.io/npm/v/list-filepaths.svg?style=flat-square)]()
+[![node](https://img.shields.io/node/v/list-filepaths.svg?style=flat-square)]()
+[![CircleCI](https://img.shields.io/circleci/project/github/bcmarinacci/list-filepaths.svg?style=flat-square)]()
+[![Coveralls](https://img.shields.io/coveralls/bcmarinacci/list-filepaths.svg?style=flat-square)]()
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-> Requires Node.js v7.8.0 or greater
+> Asynchronously return an array containing the paths of all files in a directory and its subdirectories
+
 
 ## Install
 
@@ -97,14 +100,3 @@ Similar to filter except matched paths are excluded from the result. Reject is u
 - default: `false`
 
 Set to `true` to return a list of relative paths.
-
-## License
-
-MIT
-
-[npm-image]: https://img.shields.io/npm/v/list-filepaths.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/list-filepaths
-[circleci-image]: https://img.shields.io/circleci/project/bcmarinacci/list-filepaths/master.svg?style=flat-square
-[circleci-url]: https://circleci.com/gh/bcmarinacci/list-filepaths/tree/master
-[coveralls-image]: https://img.shields.io/coveralls/bcmarinacci/list-filepaths/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/github/bcmarinacci/list-filepaths?branch=master
