@@ -1,16 +1,15 @@
 {
   "name": "list-filepaths",
   "version": "1.6.1",
-  "description": "Asynchronously list the paths of all files in a directory and its subdirectories",
+  "description": "Asynchronously return an array containing the paths of all files in a directory and its subdirectories",
   "engines": {
     "node": "^7.8.0",
-    "npm": "^4.4.4"
+    "npm": "^4.5.0"
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js lib __tests__",
-    "lint-fix": "npm run lint -- --fix",
-    "test": "jest && npm run lint",
+    "prettier": "prettier --single-quote --write index.js '{lib,__{fixtures,tests}__}**/*.js'",
+    "test": "jest",
     "preversion": "npm run test",
     "postversion": "git push && git push --tags"
   },
@@ -44,11 +43,9 @@
   },
   "devDependencies": {
     "coveralls": "^2.13.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.3",
-    "eslint-plugin-import": "^2.2.0",
     "jest": "^19.0.2",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "prettier": "^1.1.0"
   },
   "jest": {
     "bail": true,

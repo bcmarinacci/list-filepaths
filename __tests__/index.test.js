@@ -4,15 +4,16 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const listFilepaths = require('../index');
 
-const mkdirpPromise = filepath => new Promise((resolve, reject) => {
-  mkdirp(filepath, (err, made) => {
-    if (err) {
-      reject(err);
-    } else {
-      resolve(made);
-    }
+const mkdirpPromise = filepath =>
+  new Promise((resolve, reject) => {
+    mkdirp(filepath, (err, made) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(made);
+      }
+    });
   });
-});
 
 describe('listFilepaths', () => {
   let targetPath;
@@ -55,7 +56,9 @@ describe('listFilepaths', () => {
       path.resolve('__fixtures__/ships/millennium-falcon/pilots/han-solo.js')
     ];
 
-    const filepaths = await listFilepaths(targetPath, { filter: /millennium-falcon/ });
+    const filepaths = await listFilepaths(targetPath, {
+      filter: /millennium-falcon/
+    });
     expect(filepaths.length).toEqual(expectedFilepaths.length);
     expect(filepaths).toEqual(expectedFilepaths);
   });
@@ -84,7 +87,9 @@ describe('listFilepaths', () => {
       path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
-    const filepaths = await listFilepaths(targetPath, { reject: /millennium-falcon/ });
+    const filepaths = await listFilepaths(targetPath, {
+      reject: /millennium-falcon/
+    });
     expect(filepaths.length).toEqual(expectedFilepaths.length);
     expect(filepaths).toEqual(expectedFilepaths);
   });
@@ -120,7 +125,11 @@ describe('listFilepaths', () => {
       path.resolve('__fixtures__/ships/slave-i/slave-i.js')
     ];
 
-    const [filepathsDepth0, filepathsDepth1, filepathsDepth2] = await Promise.all([
+    const [
+      filepathsDepth0,
+      filepathsDepth1,
+      filepathsDepth2
+    ] = await Promise.all([
       listFilepaths(targetPath, { depth: 0 }),
       listFilepaths(targetPath, { depth: 1 }),
       listFilepaths(targetPath, { depth: 2 })
