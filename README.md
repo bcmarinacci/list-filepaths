@@ -1,9 +1,9 @@
 # list-filepaths
 
-[![npm](https://img.shields.io/npm/v/list-filepaths.svg?style=flat-square)]()
-[![node](https://img.shields.io/node/v/list-filepaths.svg?style=flat-square)]()
-[![CircleCI](https://img.shields.io/circleci/project/github/bcmarinacci/list-filepaths.svg?style=flat-square)]()
-[![Coveralls](https://img.shields.io/coveralls/bcmarinacci/list-filepaths.svg?style=flat-square)]()
+[![npm](https://img.shields.io/npm/v/list-filepaths.svg?style=flat-square)](https://www.npmjs.com/package/list-filepaths)
+[![node](https://img.shields.io/node/v/list-filepaths.svg?style=flat-square)](https://github.com/nodejs/node)
+[![CircleCI](https://img.shields.io/circleci/project/github/bcmarinacci/list-filepaths.svg?style=flat-square)](https://circleci.com/gh/bcmarinacci/list-filepaths)
+[![Coveralls](https://img.shields.io/coveralls/bcmarinacci/list-filepaths.svg?style=flat-square)](https://coveralls.io/github/bcmarinacci/list-filepaths)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 > Asynchronously return an array containing the paths of all files in a directory and its subdirectories
