@@ -52,7 +52,7 @@
     "collectCoverage": true,
     "coveragePathIgnorePatterns": [
       "<rootDir>/coverage/",
-      "<rootDir>/fixtures/",
+      "<rootDir>/__fixtures__/",
       "<rootDir>/node_modules/"
     ]
   }
